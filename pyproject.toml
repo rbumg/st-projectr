@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "projectr"
+version = "0.1.0"
+description = "Project Reimbursement App"
+authors = ["Robert Bumgarner <robert.bumgarner@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.1.2"
+django-extensions = "^3.2.3"
+django-allauth = "^65.0.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.9"
+werkzeug = "^3.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
