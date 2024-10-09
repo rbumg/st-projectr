@@ -16,6 +16,9 @@ db.setup: db.makemigrations db.migrate db.seed
 debug:
 	python manage.py runserver_plus 0.0.0.0:$(PORT)
 
+init: db.setup
+	cp .env.example .env && echo "Please fill in the .env file"
+
 install:
 	poetry install
 
