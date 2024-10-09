@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Project List
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Project List</h1>
+  <a href="{% url 'projects_create' %}" class="btn btn-primary">Create Project</a>
+</div>
+
+<table class="table mt-4">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">City</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if projects %}
+      {% for project in projects %}
+      <tr>
+        <td>{{ project.get_project_id }}</td>
+        <td>{{ project.name }}</td>
+        <td>{{ project.start_date }}</td>
+        <td>{{ project.end_date }}</td>
+        <td>{{ project.city }}</td>
+        <td><a href="{% url 'projects_detail' project.pk %}" class="btn btn-primary btn-sm">View</a></td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="7" class="text-center">No projects found.</td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}

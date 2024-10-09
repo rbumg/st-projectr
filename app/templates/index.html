@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-5">
+  <h1>Getting Started</h1>
+  <p>
+    Welcome to Projectr! This is a simple project management tool that allows you to create, view, and manage projects.
+  </p>
+  <p>
+    To get started, click on the Projects link in the navigation bar to view the list of projects or click the button below. You can click on a project to view its details.
+  </p>
+  <p>
+    <a href="{% url 'projects_list' %}" class="btn btn-primary">View Projects</a>
+    <a href="{% url 'projects_create' %}" class="btn btn-primary">Create Project</a>
+  </p>
+</div>
+
+<div class="p-3 mt-4 alert alert-info">
+  <h3>Need Sample Data?</h3>
+  <p>
+    Two sample cities have been pre-loaded into the database: <span class="badge bg-info rounded-pill">Arglington (High Cost)</span> and <span class="badge bg-info rounded-pill">Crozet (Low Cost)</span>.
+    If you would like to seed the database with sample projects data, you can run the following command from the terminal:
+    <pre class="bg-light p-3">make loadprojects</pre>
+  </p>
+</div>
+
+{% endblock %}

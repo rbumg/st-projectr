@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ project.name }}
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+  <h1>{{ project.name }}</h1>
+  <a href="{% url 'projects_edit' project.pk %}" class="btn btn-primary">Edit Project</a>
+  </div>
+<div class="card">
+  <div class="card-header">
+    <h5>{{ project.name }}</h5>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{ project.city }}</p>
+    <div class="row">
+      <div class="col-6">Start Date</div>
+      <div class="col-6">{{ project.start_date }}</div>
+    </div>
+    <div class="row">
+      <div class="col-6">End Date</div>
+      <div class="col-6">{{ project.end_date }}</div>
+    </div>
+    <a href="{% url 'projects_list' %}" class="btn btn-outline-secondary">Back to Projects</a>
+  </div>
+</div>
+{% endblock %}
