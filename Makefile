@@ -28,6 +28,9 @@ format:
 lint:
 	poetry run ruff lint .
 
+loadprojects:
+	python manage.py loaddata projects_fixture.json
+
 shell:
 	poetry shell
 

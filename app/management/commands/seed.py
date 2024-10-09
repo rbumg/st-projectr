@@ -29,10 +29,10 @@ class Command(BaseCommand):
         )
 
         # Create a low cost city
-        self.create_city(name="Arlington", state="VA", cost_type="low")
+        self.create_city(name="Arlington", state="VA", cost_type="high")
 
         # Create a high cost city
-        self.create_city(name="Crozet", state="VA", cost_type="high")
+        self.create_city(name="Crozet", state="VA", cost_type="low")
 
     def create_user(self, username, first_name, last_name, email, password, type):
         try:

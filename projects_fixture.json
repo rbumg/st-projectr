@@ -1,0 +1,134 @@
+[
+    {
+        "model": "app.project",
+        "pk": 1,
+        "fields": {
+            "set": 1,
+            "idx": 1,
+            "name": "Project 1",
+            "start_date": "2015-09-01",
+            "end_date": "2015-09-03",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 2,
+        "fields": {
+            "set": 2,
+            "idx": 1,
+            "name": "Project 1",
+            "start_date": "2015-09-01",
+            "end_date": "2015-09-01",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 3,
+        "fields": {
+            "set": 2,
+            "idx": 2,
+            "name": "Project 2",
+            "start_date": "2015-09-02",
+            "end_date": "2015-09-06",
+            "city": 1
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 4,
+        "fields": {
+            "set": 2,
+            "idx": 3,
+            "name": "Project 3",
+            "start_date": "2015-09-06",
+            "end_date": "2015-09-08",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 5,
+        "fields": {
+            "set": 3,
+            "idx": 1,
+            "name": "Project 1",
+            "start_date": "2015-09-01",
+            "end_date": "2015-09-03",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 6,
+        "fields": {
+            "set": 3,
+            "idx": 2,
+            "name": "Project 2",
+            "start_date": "2015-09-05",
+            "end_date": "2015-09-07",
+            "city": 1
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 7,
+        "fields": {
+            "set": 3,
+            "idx": 3,
+            "name": "Project 3",
+            "start_date": "2015-09-08",
+            "end_date": "2015-09-08",
+            "city": 1
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 8,
+        "fields": {
+            "set": 4,
+            "idx": 1,
+            "name": "Project 1",
+            "start_date": "2015-09-01",
+            "end_date": "2015-09-01",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 9,
+        "fields": {
+            "set": 4,
+            "idx": 2,
+            "name": "Project 2",
+            "start_date": "2015-09-01",
+            "end_date": "2015-09-01",
+            "city": 2
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 10,
+        "fields": {
+            "set": 4,
+            "idx": 3,
+            "name": "Project 3",
+            "start_date": "2015-09-02",
+            "end_date": "2015-09-02",
+            "city": 1
+        }
+    },
+    {
+        "model": "app.project",
+        "pk": 11,
+        "fields": {
+            "set": 4,
+            "idx": 4,
+            "name": "Project 4",
+            "start_date": "2015-09-02",
+            "end_date": "2015-09-03",
+            "city": 1
+        }
+    }
+]
