@@ -62,7 +62,7 @@ class ProjectListView(ListView):
         project_set = self.request.GET.get("project_set")
         if project_set:
             queryset = queryset.filter(set=project_set)
-        return queryset
+        return queryset.order_by("set", "idx")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
