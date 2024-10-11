@@ -38,4 +38,4 @@ shell_plus:
 	python manage.py shell_plus
 
 test:
-	python manage.py test
+	poetry run pytest --cov=app --cov-report=term-missing --cov-report=html

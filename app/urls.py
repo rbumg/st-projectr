@@ -25,20 +25,25 @@ urlpatterns = [
     path("", name="index", view=views.index),
     path("accounts/profile/", name="profile", view=views.profile),
     path(
-        "projects", name="projects_list", view=project_views.ProjectListView.as_view()
+        "projects/", name="projects_list", view=project_views.ProjectListView.as_view()
     ),
     path(
-        "projects/<int:project_id>",
-        name="projects_detail",
-        view=project_views.ProjectDetailView.as_view(),
+        "projects/calculate/",
+        name="projects_calculate",
+        view=project_views.ProjectCalculateReimbursementsView.as_view(),
     ),
     path(
-        "projects/create",
+        "projects/create/",
         name="projects_create",
         view=project_views.ProjectCreateView.as_view(),
     ),
     path(
-        "projects/<int:project_id>/edit",
+        "projects/<int:project_id>/",
+        name="projects_detail",
+        view=project_views.ProjectDetailView.as_view(),
+    ),
+    path(
+        "projects/<int:project_id>/edit/",
         name="projects_edit",
         view=project_views.ProjectUpdateView.as_view(),
     ),

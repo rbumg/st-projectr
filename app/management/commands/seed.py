@@ -14,7 +14,7 @@ class Command(BaseCommand):
             first_name="Admin",
             last_name="User",
             email="demo+admin@example.com",
-            password="admin",
+            password="password",
             type="admin",
         )
 
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             first_name="Regular",
             last_name="User",
             email="demo+user@example.com",
-            password="user",
+            password="password",
             type="user",
         )
 

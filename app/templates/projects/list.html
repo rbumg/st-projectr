@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block title %}
 Project List
 {% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between align-items-center mb-3">
   <h1>Project List</h1>
-  <a href="{% url 'projects_create' %}" class="btn btn-primary">Create Project</a>
+  <div>
+    <form method="GET" action="{% url 'projects_list' %}" class="d-inline-block">
+      <select name="project_set" class="form-control" onchange="this.form.submit()">
+        <option value="">All Sets</option>
+        {% for set in project_sets %}
+          <option value="{{ set }}" {% if set|stringformat:"s" == project_set|stringformat:"s" %}selected{% endif %}>Set {{ set }}</option>
+        {% endfor %}
+      </select>
+    </form>
+    <a href="{% url 'projects_create' %}" class="btn btn-primary">Create Project</a>
+  </div>
 </div>
 
 <table class="table mt-4">
@@ -18,6 +29,7 @@ Project List
       <th scope="col">Start Date</th>
       <th scope="col">End Date</th>
       <th scope="col">City</th>
+      <th scope="col" class="text-center">Calculated Rate</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
@@ -30,6 +42,7 @@ Project List
         <td>{{ project.start_date }}</td>
         <td>{{ project.end_date }}</td>
         <td>{{ project.city }}</td>
+        <td class="text-center">{{ project|get_calculated_rate }}</td>
         <td><a href="{% url 'projects_detail' project.pk %}" class="btn btn-primary btn-sm">View</a></td>
       </tr>
       {% endfor %}
@@ -37,7 +50,20 @@ Project List
       <tr>
         <td colspan="7" class="text-center">No projects found.</td>
       </tr>
-    {% endif %}
+  {% endif %}
   </tbody>
 </table>
+
+{% if project_set %}
+<div class="alert alert-info d-flex justify-content-between align-items-center">
+  <p class="mb-0">
+    The calculated rate for this set is <strong>{{ project|get_project_set_total:project_set }}</strong>.
+  </p>
+  <form method="POST" action="{% url 'projects_calculate' %}" class="d-inline-block">
+    {% csrf_token %}
+    <input type="hidden" name="project_set" value="{{ project_set }}">
+    <button type="submit" class="btn btn-info">Calculate</button>
+  </form>
+</div>
+{% endif %}
 {% endblock %}

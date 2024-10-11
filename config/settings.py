@@ -91,6 +91,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+APPEND_SLASH = True
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
