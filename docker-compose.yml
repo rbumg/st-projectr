@@ -25,6 +25,7 @@ services:
       - "8000:8000"
     environment:
       DJANGO_SETTINGS_MODULE: config.settings
+      SECRET_KEY: 'change-this-to-a-secret-key'
       POSTGRES_DB: projectr
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
