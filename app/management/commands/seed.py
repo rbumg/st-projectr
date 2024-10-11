@@ -61,7 +61,9 @@ class Command(BaseCommand):
     def create_city(self, name, state, cost_type):
         try:
             city = City.objects.create(name=name, state=state, cost_type=cost_type)
-            self.stdout.write(self.style.SUCCESS(f"City {city.name} created successfully!"))
+            self.stdout.write(
+                self.style.SUCCESS(f"City {city.name} created successfully!")
+            )
 
         except IntegrityError:
             self.stdout.write(self.style.WARNING(f"City {name} already exists."))

@@ -17,7 +17,9 @@ class Project(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    calculated_rate = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    calculated_rate = models.DecimalField(
+        max_digits=5, decimal_places=2, blank=True, null=True
+    )
 
     def __str__(self):
         return self.name
@@ -36,16 +38,13 @@ class Project(models.Model):
         Determines the rate based on the city cost type and day type (travel or full).
         """
         return self.get_day_rate(day_type, self.city.cost_type)
-    
+
     @staticmethod
     def get_day_rate(day_type, city_type):
         """
         Determines the rate based on the city cost type and day type (travel or full).
         """
-        rates = {
-            'high': {'travel': 55, 'full': 85},
-            'low': {'travel': 45, 'full': 75}
-        }
+        rates = {"high": {"travel": 55, "full": 85}, "low": {"travel": 45, "full": 75}}
 
         return rates[city_type][day_type]
 
@@ -58,8 +57,8 @@ class Project(models.Model):
             current_date = project.start_date
             while current_date <= project.end_date:
                 if current_date not in date_to_city:
-                    date_to_city[current_date] = {'low': 0, 'high': 0}
-                city_type = 'high' if project.city.cost_type == 'high' else 'low'
+                    date_to_city[current_date] = {"low": 0, "high": 0}
+                city_type = "high" if project.city.cost_type == "high" else "low"
                 date_to_city[current_date][city_type] += 1
                 current_date += timedelta(days=1)
 
@@ -81,44 +80,49 @@ class Project(models.Model):
             current_date = first_day
 
             while current_date <= last_day:
-                city_type = 'high' if project.city.cost_type == 'high' else 'low'
+                city_type = "high" if project.city.cost_type == "high" else "low"
 
                 if current_date not in day_types:
                     # Set the first and last day of a project/sequence as travel days
                     if current_date == first_day or current_date == last_day:
-                        day_types[current_date] = {'type': 'travel', 'city_type': city_type}
+                        day_types[current_date] = {
+                            "type": "travel",
+                            "city_type": city_type,
+                        }
                     else:
-                        day_types[current_date] = {'type': 'full', 'city_type': city_type}
+                        day_types[current_date] = {
+                            "type": "full",
+                            "city_type": city_type,
+                        }
                 else:
                     # If the day is already counted as a travel day, upgrade it to a full day for overlapping projects
-                    if day_types[current_date]['type'] == 'travel':
-                        day_types[current_date]['type'] = 'full'
+                    if day_types[current_date]["type"] == "travel":
+                        day_types[current_date]["type"] = "full"
 
                     # Use the higher reimbursement rate (high-cost city) for overlapping days
-                    if day_types[current_date]['city_type'] == 'low' and city_type == 'high':
-                        day_types[current_date]['city_type'] = 'high'
+                    if (
+                        day_types[current_date]["city_type"] == "low"
+                        and city_type == "high"
+                    ):
+                        day_types[current_date]["city_type"] = "high"
 
                 current_date += timedelta(days=1)
 
         return day_types
-
 
     @staticmethod
     def calculate_total_reimbursement(day_types):
         """
         Calculate the total reimbursement based on the classified days.
         """
-        rates = {
-            'travel': {'low': 45, 'high': 55},
-            'full': {'low': 75, 'high': 85}
-        }
+        rates = {"travel": {"low": 45, "high": 55}, "full": {"low": 75, "high": 85}}
 
         total_reimbursement = 0
 
         # Calculate the total reimbursement
         for day, info in day_types.items():
-            day_type = info['type']
-            city_type = info['city_type']
+            day_type = info["type"]
+            city_type = info["city_type"]
             rate = rates[day_type][city_type]
             print(f"Day: {day}, Type: {day_type}, City: {city_type}, Rate: {rate}")
             total_reimbursement += rate
@@ -133,7 +137,7 @@ class Project(models.Model):
         Each project will also have its own individual reimbursement calculated and saved.
         """
         # Fetch all projects in the set
-        projects = cls.objects.filter(set=project_set).select_related('city')
+        projects = cls.objects.filter(set=project_set).select_related("city")
 
         # Step 1: Collect all unique dates and associated city types
         date_to_city = cls.collect_project_dates(projects)
@@ -153,9 +157,12 @@ class Project(models.Model):
 
             # For each project, sum up the reimbursement for the days that belong to this project
             for day, info in day_types.items():
-                if project.start_date <= day <= project.end_date and day not in reimbursed_days:
+                if (
+                    project.start_date <= day <= project.end_date
+                    and day not in reimbursed_days
+                ):
                     # Add the rate for each day that belongs to this project and has not been reimbursed yet
-                    rate = cls.get_day_rate(info['type'], info['city_type'])
+                    rate = cls.get_day_rate(info["type"], info["city_type"])
                     project_reimbursement += rate
 
                     # Mark the day as reimbursed

@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('app', '0002_alter_city_options_project_idx'),
+        ("app", "0002_alter_city_options_project_idx"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='calculated_rate',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=5, null=True),
+            model_name="project",
+            name="calculated_rate",
+            field=models.DecimalField(
+                blank=True, decimal_places=2, max_digits=5, null=True
+            ),
         ),
     ]
