@@ -1,6 +1,6 @@
 PORT ?= 8000
 
-.PHONY: help db.makemigrations db.migrate db.seed debug docker.build docker.run docker.loadprojects install format lint shell shell_plus test
+.PHONY: help db.makemigrations db.migrate db.seed db.setup debug docker.build docker.loadprojects docker.logs docker.run docker.stop install format lint loadprojects shell shell_plus test
 
 db.makemigrations:
 	python manage.py makemigrations
@@ -19,14 +19,20 @@ debug:
 docker.build:
 	docker-compose build
 
-docker.run:
-	docker-compose up -d
-
 docker.loadprojects:
 	docker-compose exec web python manage.py loaddata projects_fixture.json
 
+docker.logs:
+	docker-compose logs -f
+
+docker.run:
+	docker-compose up -d
+
+docker.stop:
+	docker-compose down
+
 init: db.setup
-	cp .env.example .env && echo "Please fill in the .env file"
+	@if [ ! -f .env ]; then cp .env.example .env && echo "Please fill in the .env file"; else echo ".env file already exists"; fi
 
 install:
 	poetry install

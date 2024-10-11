@@ -4,8 +4,18 @@ This application is intended to satisfy the requirements for SimpleThread's samp
 
 ## Getting Started
 
-This application uses Poetry for Python package management. To install the application run:
+## Option 1 - Docker:
+This application uses Docker in conjunction with Docker Compose to run both the web and database containers locally.
 
+### Step 1: Start the containers
+```bash
+make docker.run
+```
+
+Running in Docker simplifies the process by leveraging the entrypoint feature, which automatically handles database migrations and seeds the database with initial data during container startup. This eliminates the need for manual setup steps and ensures the application is ready to use once the containers are up and running.
+
+## Option 2 - Local Development:
+This application uses Poetry for Python package management. To install the application locally run:
 
 ### Step 1: Install the application
 ```bash
@@ -63,7 +73,7 @@ Click the `Calcuate` button to calculate the reimbursement rates for the project
 
 ![Project List View - Calculate](docs/project_view_calculated.png)
 
-#### Reimbursement Rules
+## Reimbursement Rules
 
 The following rules apply for calculating the reimbursement rates.
 
@@ -97,13 +107,28 @@ The following rules apply for calculating the reimbursement rates.
 
 ## Sample Data
 
-A sample data file, `projects_fixtures.json`, has been included. To load the sample data into the application, run the following command:
+A sample data file, `projects_fixtures.json`, has been included. To load the sample data into the application locally, run the following command:
 
 ```bash
 make loadprojects
 ```
 
+To load the sample data into the Docker container, run:
+```bash
+make docker.loadprojects
+```
+
 This will populate the application with sample projects to allow testing reimbursement calculations.
+
+## Running Tests
+Some basic tests have been provided for verifying the application functionality.
+
+To run the tests locally, run:
+```bash
+make test
+```
+
+> Note: Tests are designed to only be run locally currently. The Docker image does not include development dependencies (such as `pytest`), which are defined for the project when using Poetry for local development.
 
 ## What's Next?
 
