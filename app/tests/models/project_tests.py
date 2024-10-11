@@ -111,12 +111,12 @@ class ProjectModelTests(TestCase):
 
     def test_reimbursement_set2(self):
         total_reimbursement = Project.calculate_reimbursement_for_project_set(2)
-        expected_reimbursement = (45) + (55 + 85 + 85 + 85 + 85) + (75 + 45)  # 570
+        expected_reimbursement = (75) + (85 + 85 + 85 + 85 + 85) + (75 + 45)  # 620
         self.assertEqual(total_reimbursement, expected_reimbursement)
 
     def test_reimbursement_set3(self):
         total_reimbursement = Project.calculate_reimbursement_for_project_set(3)
-        expected_reimbursement = 45 + 75 + 45 + 55 + 85 + 55 + 55  # 415
+        expected_reimbursement = 45 + 75 + 45 + 55 + 85 + 85 + 85  # 475
         self.assertEqual(total_reimbursement, expected_reimbursement)
 
     def test_reimbursement_set4(self):

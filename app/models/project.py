@@ -68,13 +68,13 @@ class Project(models.Model):
     def classify_days(projects, date_to_city):
         """
         Classify days across multiple projects in a set.
-        - Handle overlaps correctly, upgrading travel days to full days where appropriate.
+        - Handle overlaps and gaps correctly, upgrading travel days to full days where appropriate.
         - Ensure that any day is only counted once, even if it belongs to multiple projects.
         """
         day_types = {}
+        sorted_projects = sorted(projects, key=lambda p: p.start_date)
 
-        # Iterate over the projects and classify each day
-        for project in projects:
+        for i, project in enumerate(sorted_projects):
             first_day = project.start_date
             last_day = project.end_date
             current_date = first_day
@@ -82,8 +82,9 @@ class Project(models.Model):
             while current_date <= last_day:
                 city_type = "high" if project.city.cost_type == "high" else "low"
 
+                # If the day hasn't been assigned yet, classify it
                 if current_date not in day_types:
-                    # Set the first and last day of a project/sequence as travel days
+                    # First and last day are travel days unless upgraded to full due to overlap or push
                     if current_date == first_day or current_date == last_day:
                         day_types[current_date] = {
                             "type": "travel",
@@ -95,11 +96,14 @@ class Project(models.Model):
                             "city_type": city_type,
                         }
                 else:
-                    # If the day is already counted as a travel day, upgrade it to a full day for overlapping projects
-                    if day_types[current_date]["type"] == "travel":
+                    # If the day is already marked as travel, upgrade it to full for overlaps or adjacent projects
+                    if (
+                        day_types[current_date]["type"] == "travel"
+                        and current_date != last_day
+                    ):
                         day_types[current_date]["type"] = "full"
 
-                    # Use the higher reimbursement rate (high-cost city) for overlapping days
+                    # Use the higher city cost type (high) if there's a conflict
                     if (
                         day_types[current_date]["city_type"] == "low"
                         and city_type == "high"
@@ -107,6 +111,29 @@ class Project(models.Model):
                         day_types[current_date]["city_type"] = "high"
 
                 current_date += timedelta(days=1)
+
+            # Handle the case where two projects push up against each other
+            if i < len(sorted_projects) - 1:
+                next_project = sorted_projects[i + 1]
+                next_first_day = next_project.start_date
+
+                # If projects touch, mark the last day as full
+                if last_day + timedelta(days=1) == next_first_day:
+                    day_types[first_day] = {
+                        "type": "full",
+                        "city_type": city_type,
+                    }  # Project pushes against the next one
+                    day_types[next_first_day] = {
+                        "type": "full",
+                        "city_type": next_project.city.cost_type,
+                    }
+                else:
+                    # Ensure the last day of the project is classified correctly as travel if not touching the next project
+                    if (
+                        last_day not in day_types
+                        or day_types[last_day]["type"] != "full"
+                    ):
+                        day_types[last_day] = {"type": "travel", "city_type": city_type}
 
         return day_types
 
@@ -148,10 +175,10 @@ class Project(models.Model):
         # Step 3: Calculate the total reimbursement for all projects in the set
         total_reimbursement = cls.calculate_total_reimbursement(day_types)
 
-        # Keep track of which days have already been reimbursed
+        # Step 4: Track already reimbursed days to avoid double counting
         reimbursed_days = set()
 
-        # Step 4: Calculate and save the rate for each project individually
+        # Step 5: Calculate and save the rate for each project individually
         for project in projects:
             project_reimbursement = 0
 
@@ -161,11 +188,11 @@ class Project(models.Model):
                     project.start_date <= day <= project.end_date
                     and day not in reimbursed_days
                 ):
-                    # Add the rate for each day that belongs to this project and has not been reimbursed yet
+                    # Add the rate for each day that belongs to this project and hasn't been reimbursed yet
                     rate = cls.get_day_rate(info["type"], info["city_type"])
                     project_reimbursement += rate
 
-                    # Mark the day as reimbursed
+                    # Mark the day as reimbursed to prevent double counting
                     reimbursed_days.add(day)
 
             # Save the calculated reimbursement for the project
