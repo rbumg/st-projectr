@@ -110,7 +110,6 @@ This will populate the application with sample projects to allow testing reimbur
 This application was developed to demonstrate core functionality within a limited time frame. For production use, the following features could be added:
 
 - UI/UX: Enhance the interface by refining form validation, styling, and mobile responsiveness. The current interface uses Bootstrap with a Bootswatch theme for rapid prototyping.
-- Database Migration: SQLite is being used for development purposes, but for a production environment, switching to PostgreSQL would provide better scalability and robustness. 
 - Test coverage: Expand test coverage with unit tests for reimbursement calculations, data validation, and user authentication flows using Django's testing framework.
 - AuthZ/AuthN:  Fully implement authentication and user management features with django-allauth, supporting OAuth2 providers and role-based access.
 - Email Notifications: Integrate an email service (e.g., SendGrid or Amazon SES) to handle notifications for events, such as reimbursement submissions.

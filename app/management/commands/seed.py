@@ -59,5 +59,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("User already exists."))
 
     def create_city(self, name, state, cost_type):
-        city = City.objects.create(name=name, state=state, cost_type=cost_type)
-        self.stdout.write(self.style.SUCCESS(f"City {city.name} created successfully!"))
+        try:
+            city = City.objects.create(name=name, state=state, cost_type=cost_type)
+            self.stdout.write(self.style.SUCCESS(f"City {city.name} created successfully!"))
+
+        except IntegrityError:
+            self.stdout.write(self.style.WARNING(f"City {name} already exists."))

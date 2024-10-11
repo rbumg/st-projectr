@@ -63,7 +63,7 @@ class ProjectListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['project_sets'] = Project.objects.values_list('set', flat=True).distinct()
+        context['project_sets'] = Project.objects.values_list('set', flat=True).distinct().order_by('set')
         context['project_set'] = self.request.GET.get('project_set')
         return context
 
